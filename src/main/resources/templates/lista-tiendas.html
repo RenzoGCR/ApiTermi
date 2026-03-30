@@ -5,170 +5,126 @@
       data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Tiendas</title>
+    <title>Lista de Tiendas | Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <style>
         body {
-            background-color: #121212; /* Fondo color carbón muy oscuro */
-            color: #e0e0e0; /* Texto gris claro para evitar fatiga visual */
+            background-color: #121212;
+            color: #e0e0e0;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
 
-        h1 {
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            color: #ffffff;
+        .main-header {
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .card {
-            background-color: #1e1e1e; /* Tarjeta un poco más clara que el fondo */
-            border: 1px solid #333333; /* Borde muy sutil */
+            background-color: #1e1e1e;
+            border: 1px solid #333;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Sombra oscura suave */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Estilos de la tabla */
+        /* Tabla Estilo Minimal */
         .table {
             --bs-table-bg: transparent;
             --bs-table-color: #e0e0e0;
-            --bs-table-border-color: #333333;
-            margin-bottom: 0;
+            --bs-table-border-color: #333;
         }
 
-        .table > thead > tr > th {
-            background-color: #252525;
-            color: #a0a0a0;
-            font-weight: 500;
+        thead th {
+            background-color: #252525 !important;
+            color: #888 !important;
+            font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            border-bottom: 2px solid #333333;
-            padding: 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            padding: 15px !important;
         }
 
-        .table > tbody > tr > td {
-            padding: 1rem;
+        tbody td {
+            padding: 15px !important;
             vertical-align: middle;
         }
 
-        .table-striped > tbody > tr:nth-of-type(odd) > * {
-            --bs-table-bg-type: rgba(255, 255, 255, 0.02);
-        }
-
-        .table-hover > tbody > tr:hover > * {
-            --bs-table-bg-state: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Botones personalizados */
+        /* Botones y Acentos */
         .btn-primary {
-            background-color: #7b61ff; /* Acento morado/azul vibrante */
+            background-color: #7b61ff;
             border-color: #7b61ff;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s ease;
         }
 
         .btn-primary:hover {
             background-color: #6a4deb;
-            border-color: #6a4deb;
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(123, 97, 255, 0.3);
         }
 
-        .btn-warning {
-            background-color: rgba(255, 193, 7, 0.1);
-            color: #ffc107;
-            border: 1px solid rgba(255, 193, 7, 0.3);
-            border-radius: 6px;
-        }
-
-        .btn-warning:hover {
-            background-color: #ffc107;
-            color: #000;
-        }
-
-        .btn-danger {
-            background-color: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border: 1px solid rgba(220, 53, 69, 0.3);
-            border-radius: 6px;
-        }
-
-        .btn-danger:hover {
-            background-color: #dc3545;
-            color: #fff;
-        }
-
-        .btn-outline-danger {
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 8px;
+            transition: 0.2s;
         }
 
-        /* Controles de formulario (Selects e Inputs) */
+        /* Filtros */
+        .filter-section {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #2a2a2a;
+        }
+
         .form-select, .form-control {
             background-color: #252525;
             border: 1px solid #444;
-            color: #e0e0e0;
-            border-radius: 8px;
-        }
-
-        .form-select:focus, .form-control:focus {
-            background-color: #2a2a2a;
-            border-color: #7b61ff;
-            box-shadow: 0 0 0 0.25rem rgba(123, 97, 255, 0.25);
             color: #fff;
         }
 
-        /* Paginación */
-        .pagination {
-            --bs-pagination-bg: #1e1e1e;
-            --bs-pagination-border-color: #333333;
-            --bs-pagination-color: #a0a0a0;
-            --bs-pagination-hover-bg: #2a2a2a;
-            --bs-pagination-hover-color: #fff;
-            --bs-pagination-disabled-bg: #121212;
-        }
-
-        .page-link {
-            border-radius: 6px;
-            margin: 0 3px;
+        .form-select:focus, .form-control:focus {
+            border-color: #7b61ff;
+            box-shadow: 0 0 0 0.25rem rgba(123, 97, 255, 0.25);
         }
     </style>
 </head>
-<body class="container mt-5 mb-5">
+<body class="container py-5">
 
-<div class="d-flex justify-content-between align-items-center mb-5">
-    <h1>Gestión de Tiendas y Agencias</h1>
-
+<header class="main-header d-flex justify-content-between align-items-center">
     <div>
-        <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-outline-light me-2">
-            <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-        </a>
+        <h1 class="mb-0">Gestión de Tiendas</h1>
+        <p class="text-secondary small mb-0">Base de datos de tiendas y agencias</p>
+    </div>
 
-        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-outline-danger me-3">
-                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+    <div class="d-flex align-items-center gap-2">
+        <a sec:authorize="isAnonymous()" th:href="@{/login}" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-person-fill me-1"></i> Iniciar Sesion
+        </a>
+        <form sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post" class="m-0">
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-power me-1"></i> Salir (<span sec:authentication="name"></span>)
             </button>
         </form>
 
-        <a sec:authorize="isAuthenticated()" th:href="@{/tiendas/nueva}" class="btn btn-primary px-4">
-            <i class="bi bi-plus-circle me-2"></i> Añadir Nueva Tienda
+        <a sec:authorize="isAuthenticated()" th:href="@{/tiendas/nueva}" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg me-1"></i> Nueva Tienda
         </a>
     </div>
-</div>
+</header>
 
-<div class="row mb-4 bg-dark p-3 rounded-3 border border-secondary border-opacity-25 shadow-sm">
-
-    <div class="col-md-8">
-        <form th:action="@{/tiendas}" method="get" class="d-flex align-items-center">
+<div class="row g-3 mb-4 align-items-end">
+    <div class="col-md-6">
+        <form th:action="@{/tiendas}" method="get" id="filterForm" class="filter-section d-flex gap-2 align-items-center">
             <input type="hidden" name="size" th:value="${tamanoActual}">
-            <label for="agenciaBusqueda" class="form-label me-3 fw-bold mb-0 text-nowrap text-secondary">Filtro:</label>
 
-            <div class="input-group input-group-sm w-50 me-3">
-                <span class="input-group-text bg-transparent border-secondary text-secondary"><i class="bi bi-filter"></i></span>
-                <select id="agenciaBusqueda" name="agencia" class="form-select border-start-0">
-                    <option value="">Todas las agencias</option>
+            <div class="flex-grow-1">
+                <label class="small text-secondary d-block mb-1">Filtrar por Agencia</label>
+                <select name="agencia" id="agenciaBusqueda" class="form-select form-select-sm">
+                    <option value="">Todas las Agencias</option>
                     <option th:each="ag : ${listaAgencias}"
                             th:value="${ag}"
                             th:text="${ag}"
@@ -177,74 +133,76 @@
                 </select>
             </div>
 
-            <button type="submit" class="btn btn-light btn-sm me-2 px-3 fw-medium">Aplicar</button>
-            <a th:if="${agenciaFiltro != null and agenciaFiltro != ''}"
-               th:href="@{/tiendas(size=${tamanoActual})}"
-               class="btn btn-outline-danger btn-sm px-3">Limpiar</a>
+            <div class="mt-4 d-flex gap-1">
+                <button type="submit" class="btn btn-light btn-sm px-3">Filtrar</button>
+                <a th:if="${agenciaFiltro != null and agenciaFiltro != ''}"
+                   th:href="@{/tiendas(size=${tamanoActual})}"
+                   class="btn btn-outline-secondary btn-sm"><i class="bi bi-x-lg"></i></a>
+
+                <a th:href="@{/tiendas/exportar-pdf(agencia=${agenciaFiltro})}"
+                   class="btn btn-outline-info btn-sm" title="Descargar PDF">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                </a>
+            </div>
         </form>
     </div>
 
-    <div class="col-md-4 d-flex justify-content-end align-items-center">
-        <label for="pageSize" class="me-3 fw-bold mb-0 text-secondary">Mostrar:</label>
-        <select id="pageSize" class="form-select form-select-sm w-auto"
-                onchange="window.location.href='/tiendas?page=0&size=' + this.value + '&agencia=' + document.getElementById('agenciaBusqueda').value">
-            <option value="10" th:selected="${tamanoActual == 10}">10</option>
-            <option value="15" th:selected="${tamanoActual == 15}">15</option>
-            <option value="25" th:selected="${tamanoActual == 25}">25</option>
-            <option value="50" th:selected="${tamanoActual == 50}">50</option>
-            <option value="100" th:selected="${tamanoActual == 100}">100</option>
-        </select>
+    <div class="col-md-6 d-flex justify-content-end gap-3 align-items-center">
+        <div class="text-end">
+            <label class="small text-secondary d-block mb-1">Registros</label>
+            <select class="form-select form-select-sm w-auto"
+                    onchange="window.location.href='/tiendas?page=0&size=' + this.value + '&agencia=' + document.getElementById('agenciaBusqueda').value">
+                <option th:each="s : ${ {10, 15, 25, 50, 100} }"
+                        th:value="${s}" th:text="${s}"
+                        th:selected="${tamanoActual == s}"></option>
+            </select>
+        </div>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-body p-0 table-responsive">
-        <table class="table table-striped table-hover">
-            <thead>
-            <tr>
-                <th class="ps-4">Nombre de la Tienda</th>
-                <th>Agencia Asignada</th>
-                <th class="text-center pe-4" sec:authorize="isAuthenticated()">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="tienda : ${tiendas}">
-                <td class="ps-4 fw-medium text-white" th:text="${tienda.tienda}">Nombre de ejemplo</td>
-                <td th:text="${tienda.agencia}">Agencia de ejemplo</td>
-
-                <td class="text-center pe-4" sec:authorize="isAuthenticated()">
-                    <a th:href="@{/tiendas/editar/{id}(id=${tienda.id})}" class="btn btn-warning btn-sm me-2 px-3">
-                        <i class="bi bi-pencil"></i>
-                    </a>
-
-                    <a th:href="@{/tiendas/borrar/{id}(id=${tienda.id})}" class="btn btn-danger btn-sm px-3"
-                       onclick="return confirm('¿Estás seguro de que deseas borrar esta tienda?');">
-                        <i class="bi bi-trash"></i>
-                    </a>
-                </td>
-            </tr>
-
-            <tr th:if="${#lists.isEmpty(tiendas)}">
-                <td sec:authorize="isAnonymous()" colspan="2" class="text-center py-5 text-secondary">
-                    <i class="bi bi-inbox fs-1 d-block mb-3"></i>
-                    <span th:if="${agenciaFiltro != null and agenciaFiltro != ''}">No se encontraron resultados para el filtro.</span>
-                    <span th:unless="${agenciaFiltro != null and agenciaFiltro != ''}">La base de datos está vacía.</span>
-                </td>
-                <td sec:authorize="isAuthenticated()" colspan="3" class="text-center py-5 text-secondary">
-                    <i class="bi bi-inbox fs-1 d-block mb-3"></i>
-                    <span th:if="${agenciaFiltro != null and agenciaFiltro != ''}">No se encontraron resultados para el filtro.</span>
-                    <span th:unless="${agenciaFiltro != null and agenciaFiltro != ''}">La base de datos está vacía.</span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+<div class="card overflow-hidden">
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th>Nombre Tienda</th>
+            <th>Agencia / Destino</th>
+            <th sec:authorize="isAuthenticated()" class="text-center">Gestión</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tienda : ${tiendas}">
+            <td class="text-white fw-bold" th:text="${tienda.tienda}">-</td>
+            <td>
+                        <span class="badge bg-dark border border-secondary text-secondary fw-normal"
+                              th:text="${tienda.agencia != '' ? tienda.agencia : 'Sin Agencia'}"></span>
+            </td>
+            <td sec:authorize="isAuthenticated()" class="text-center">
+                <a th:href="@{/tiendas/editar/{id}(id=${tienda.id})}" class="btn btn-warning btn-action me-1" title="Editar">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+                <a th:href="@{/tiendas/borrar/{id}(id=${tienda.id})}"
+                   class="btn btn-danger btn-action"
+                   title="Eliminar"
+                   onclick="return confirm('¿Eliminar esta tienda permanentemente?')">
+                    <i class="bi bi-trash3"></i>
+                </a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(tiendas)}">
+            <td th:colspan="${#authorization.expression('isAuthenticated()') ? 3 : 2}" class="text-center py-5">
+                <i class="bi bi-search fs-2 d-block mb-2 text-secondary"></i>
+                <p class="text-secondary">No se han encontrado resultados.</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
-<nav th:if="${paginaActual.totalPages > 1}" aria-label="Navegación de páginas" class="mt-4">
-    <ul class="pagination justify-content-center">
+<nav th:if="${paginaActual.totalPages > 1}" class="mt-4">
+    <ul class="pagination pagination-sm justify-content-center">
         <li class="page-item" th:classappend="${paginaActual.first} ? 'disabled'">
-            <a class="page-link px-3" th:href="@{/tiendas(page=${paginaActual.number - 1}, size=${tamanoActual}, agencia=${agenciaFiltro})}">
+            <a class="page-link border-0 bg-dark text-secondary"
+               th:href="@{/tiendas(page=${paginaActual.number - 1}, size=${tamanoActual}, agencia=${agenciaFiltro})}">
                 <i class="bi bi-chevron-left"></i>
             </a>
         </li>
@@ -256,7 +214,8 @@
         </li>
 
         <li class="page-item" th:classappend="${paginaActual.last} ? 'disabled'">
-            <a class="page-link px-3" th:href="@{/tiendas(page=${paginaActual.number + 1}, size=${tamanoActual}, agencia=${agenciaFiltro})}">
+            <a class="page-link border-0 bg-dark text-secondary"
+               th:href="@{/tiendas(page=${paginaActual.number + 1}, size=${tamanoActual}, agencia=${agenciaFiltro})}">
                 <i class="bi bi-chevron-right"></i>
             </a>
         </li>

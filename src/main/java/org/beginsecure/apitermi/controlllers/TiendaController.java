@@ -1,6 +1,8 @@
 package org.beginsecure.apitermi.controlllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.beginsecure.apitermi.entities.Tienda;
+import org.beginsecure.apitermi.services.TiendaPdfService;
 import org.beginsecure.apitermi.services.TiendaService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,14 +11,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/tiendas")
 public class TiendaController {
     private final TiendaService servicio;
-    public TiendaController(TiendaService servicio) {
+    private final TiendaPdfService pdfService;
+
+    public TiendaController(TiendaService servicio, TiendaPdfService pdfService) {
         this.servicio = servicio;
+        this.pdfService = pdfService;
     }
     // 1. Mostrar la página principal con la lista de todas las tiendas
     @GetMapping
@@ -80,5 +86,22 @@ public class TiendaController {
             // ¡Reutilizamos el mismo HTML de creación!
             return "formulario-tienda";
         }).orElse("redirect:/tiendas"); // Si por algún error el ID no existe, volvemos a la lista
+    }
+    @GetMapping("/exportar-pdf")
+    public void exportarAPdf(@RequestParam(required = false) String agencia, HttpServletResponse response) throws IOException {
+        response.setContentType("application/pdf");
+        String cabecera = "Content-Disposition";
+        String valor = "attachment; filename=tiendas_" + (agencia != null ? agencia : "todas") + ".pdf";
+        response.setHeader(cabecera, valor);
+
+        // Obtenemos los datos filtrados (sin paginación para que salgan todos en el PDF)
+        List<Tienda> tiendas;
+        if (agencia != null && !agencia.isEmpty()) {
+            tiendas = servicio.findByAgencia(agencia); // Este método ya lo tenías en el Service
+        } else {
+            tiendas = servicio.findAll();
+        }
+
+        pdfService.exportar(response, tiendas, agencia);
     }
 }
