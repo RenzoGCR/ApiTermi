@@ -24,6 +24,11 @@ public class TiendaController {
         this.servicio = servicio;
         this.pdfService = pdfService;
     }
+
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/tiendas";
+    }
     // 1. Mostrar la página principal con la lista de todas las tiendas
     @GetMapping
     public String listarTiendas(
